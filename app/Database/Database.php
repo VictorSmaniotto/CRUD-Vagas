@@ -128,4 +128,38 @@ class Database
         //EXECUTA A QUERY
         return $this->execute($query);
     }
+
+    /**
+     * Método respnsável por executar atualizações no banco de dados
+     * @param string $where
+     * @param array $values [field => value]
+     */
+    public function update($where,$values){
+        //DADOS DA QUERY
+        $fields = array_keys($values);
+
+        //MONTA A QUERY
+        $query = 'UPDATE '.$this->table.' SET '.implode('=?,',$fields).'=? WHERE '.$where;
+       
+        //EXECUTAR A QUERY
+        $this->execute($query, array_values($values));
+
+        return true;
+    }
+
+    /**
+     * Método responsável por excluir dados do banco
+     * @param string $where
+     * @return boolean
+     */
+    public function delete($where){
+        //MONTA A QUERY
+        $query = 'DELETE FROM '.$this->table.' WHERE '.$where;
+
+        //EXECUTA A QUERY
+        $this->execute($query);
+
+        //RETORNA SUCESSO
+        return true;
+    }
 }
